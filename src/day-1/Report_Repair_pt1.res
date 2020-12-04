@@ -8,7 +8,7 @@ let findMatches = (entries: array<int>, target: int): option<array<int>> => {
       let sum = a + b;
 
       result := switch(result.contents) {
-        | None when sum === target => Some([a, b])
+        | None when (sum === target) => Some([a, b])
         | _ => result.contents
       }
     })
