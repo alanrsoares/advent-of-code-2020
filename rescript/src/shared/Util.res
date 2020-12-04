@@ -12,8 +12,6 @@ let product = (xs: array<int>) => xs->Belt.Array.reduce(1, (a, b) => a * b)
 
 exception String_cannot_be_split
 
-
-
 let bissect = (c, s) => {
   switch (splitToArray(c, s)) {
   | [l, r] => (l, r)
