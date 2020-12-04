@@ -26,5 +26,3 @@ let main = () => {
     | _ => Js.log("Result: not found")
   }
 }
-
-main()

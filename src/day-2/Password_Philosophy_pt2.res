@@ -56,5 +56,3 @@ let main = () => {
 
   Js.log2("Valid passwords:", result)
 }
-
-main()
