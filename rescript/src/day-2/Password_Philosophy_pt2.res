@@ -26,9 +26,9 @@ type entry = {
 }
 
 let parseEntry = (s: string) => {
-  let (left, right) = Util.split(':', s)
-  let (rule, character) = Util.split(' ', left)
-  let (pos1, pos2) = Util.splitMap('-', rule, int_of_string)
+  let (left, right) = Util.bissect(':', s)
+  let (rule, character) = Util.bissect(' ', left)
+  let (pos1, pos2) = Util.bissectMap('-', rule, int_of_string)
 
   {
    pos1,
