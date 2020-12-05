@@ -7,7 +7,7 @@ let findMatches = (entries: array<int>, target: int): option<array<int>> => {
     entries->Belt.Array.forEach((b) => {
       let sum = a + b;
 
-      result := switch(result.contents) {
+      result := switch (result.contents) {
         | None when sum === target => Some([a, b])
         | _ => result.contents
       }
@@ -16,7 +16,6 @@ let findMatches = (entries: array<int>, target: int): option<array<int>> => {
 
   result.contents
 }
-
 
 type entry = {
   pos1: int,

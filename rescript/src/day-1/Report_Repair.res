@@ -1,5 +1,4 @@
-Js.log("Running 'Report Repair' part 1")
-Report_Repair_pt1.main()
-
-Js.log("Running 'Report Repair' part 2")
-Report_Repair_pt2.main()
+Util.Runner.run(~title="Report Repair", ~cases=[
+  Report_Repair_pt1.main,
+  Report_Repair_pt2.main
+])
