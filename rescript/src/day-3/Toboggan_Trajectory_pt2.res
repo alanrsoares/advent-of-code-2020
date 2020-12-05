@@ -13,11 +13,8 @@ let strategies = [
 let main = () => {
   open Belt.Array
 
-  let runWithStrategy = strategy => 
-    entries->countTreesWithStrategy(strategy)
-  
   let trees = strategies
-    ->map(runWithStrategy)
+    ->map(entries->countTreesWithStrategy)
     ->map(float_of_int)
     ->Util.product
 

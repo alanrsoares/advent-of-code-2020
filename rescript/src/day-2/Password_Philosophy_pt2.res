@@ -53,5 +53,5 @@ let main = () => {
   let validEntries = entries->Belt.Array.keep(isValidEntry)
   let result = validEntries->Belt.Array.length
 
-  Js.log2("Valid passwords:", result)
+  result |> Js.log2("Valid passwords found:")
 }
