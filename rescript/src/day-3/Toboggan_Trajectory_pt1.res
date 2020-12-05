@@ -1,12 +1,14 @@
 @bs.val external dirName: string = "__dirname"
 
 let main = () => {
-  let scheme: Toboggan_Trajectory.scheme = { 
+  open Toboggan_Trajectory
+
+  let strategy = {
     right: 3, 
     down: 1 
   }
-  
-  let trees = Toboggan_Trajectory.countTreesWithScheme(Toboggan_Trajectory.entries, scheme)
+
+  let trees = countTreesWithStrategy(entries, strategy)
 
   Js.log(`Result: ${trees->string_of_int} trees`)
 }

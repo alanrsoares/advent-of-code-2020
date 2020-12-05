@@ -1,6 +1,8 @@
 @bs.val external dirName: string = "__dirname"
 
-let schemes: array<Toboggan_Trajectory.scheme> = [
+open Toboggan_Trajectory
+
+let strategies = [
   { right: 1, down: 1 },
   { right: 3, down: 1 },
   { right: 5, down: 1 },
@@ -9,12 +11,15 @@ let schemes: array<Toboggan_Trajectory.scheme> = [
 ]
 
 let main = () => {
-  open Toboggan_Trajectory
   open Belt.Array
 
-  let runWithScheme = scheme => entries->countTreesWithScheme(scheme)
+  let runWithStrategy = strategy => 
+    entries->countTreesWithStrategy(strategy)
   
-  let trees = schemes->map(runWithScheme)->map(float_of_int)->Util.product
+  let trees = strategies
+    ->map(runWithStrategy)
+    ->map(float_of_int)
+    ->Util.product
 
   Js.log(`Result: ${trees->Js.Float.toString} trees`)
 }

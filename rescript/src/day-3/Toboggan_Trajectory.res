@@ -1,6 +1,6 @@
 @bs.val external dirName: string = "__dirname"
 
-type scheme = {
+type strategy = {
   right: int,
   down: int
 }
@@ -20,7 +20,7 @@ let parseEntry = (entry) => {
 let inputPath = Node.Path.resolve(dirName, "input.txt")
 let entries = Util.parseRows(inputPath)->Belt.Array.map(parseEntry)
 
-let countTreesWithScheme = (rows, scheme) => {
+let countTreesWithStrategy = (rows, scheme) => {
   let count = ref(0)
   let position = ref({ row: 0, column: 0 })
   let break = ref(false)
