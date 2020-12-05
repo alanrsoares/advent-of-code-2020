@@ -29,7 +29,8 @@ let bissectMap = (c, s, fn) => {
   }
 }
 
-let isBetween = (~value: int, ~min, ~max) => value >= min && value <= max
+let isBetween = (~value: int, ~min, ~max) => 
+  value >= min && value <= max
 
 module Runner = {
   let run = (~title, ~cases) => {
