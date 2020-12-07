@@ -2,17 +2,6 @@
 
 let inputPath = Node.Path.resolve(dirName, "input.txt")
 
-type passport = {
-  byr: string,
-  iyr: string,
-  eyr: string,
-  hgt: string,
-  hcl: string,
-  ecl: string,
-  pid: string,
-  cid: string
-}
-
 let requiredKeys = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid"]
 
 let hasAllRequiredFields = (fields: array<(string, string)>) => {
