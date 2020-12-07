@@ -54,3 +54,34 @@ let normalizeRows = (rows: array<string>) => {
 }
 
 let rows = Util.parseRows(~path=inputPath)
+
+
+module Pt1 = {
+  let run = () => {
+    let validPassports = rows
+      ->normalizeRows
+      ->Belt.Array.keep(isValid)
+      ->Belt.Array.length
+
+    Js.log2(`Valid passports:`, validPassports)
+  }
+}
+
+module Pt2 = {
+  let run = () => {
+    let validPassports = rows
+      ->normalizeRows
+      ->Belt.Array.keep(isValid)
+      ->Belt.Array.length
+
+    Js.log2(`Valid passports:`, validPassports)
+  }
+}
+
+Util.Runner.run(
+  ~title="Passport Processing", 
+  ~cases=[
+    Pt1.run,
+    Pt2.run,
+  ]
+)

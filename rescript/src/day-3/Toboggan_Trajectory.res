@@ -50,3 +50,42 @@ let countTreesWithStrategy = (rows, scheme) => {
 
   count.contents
 }
+
+module Pt1 = {
+  let main = () => {
+    let strategy = {
+      right: 3, 
+      down: 1 
+    }
+
+    let trees = entries->countTreesWithStrategy(strategy)
+
+    Js.log2(`Trees encountered:`, trees)
+  }
+}
+
+module Pt2 = {
+  let strategies = [
+    { right: 1, down: 1 },
+    { right: 3, down: 1 },
+    { right: 5, down: 1 },
+    { right: 7, down: 1 },
+    { right: 1, down: 2 }
+  ]
+
+  let main = () => {
+    open Belt.Array
+
+    let trees = strategies
+      ->map(entries->countTreesWithStrategy)
+      ->map(float_of_int)
+      ->Util.product
+
+    Js.log2(`Trees encountered:`, trees)
+  }
+}
+
+Util.Runner.run(~title="Toboggan Trajectory", ~cases=[
+  Pt1.main,
+  Pt2.main
+])
