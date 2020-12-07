@@ -8,9 +8,9 @@ let parseRows = (~path) => {
   splitToArray('\n', file)
 }
 
-let sum = xs => xs->Belt.Array.reduce(0, (a, b) => a + b)
+let sum = Belt.Array.reduce(_, 0, (a, b) => a + b)
 
-let product = xs => xs->Belt.Array.reduce(1.0, (a, b) => a *. b)
+let product = Belt.Array.reduce(_, 1.0, (a, b) => a *. b)
 
 exception String_cannot_be_split
 
