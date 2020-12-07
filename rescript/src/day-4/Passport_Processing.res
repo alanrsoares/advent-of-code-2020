@@ -22,12 +22,7 @@ let parseRow = (row: string) => {
   row
     ->String.trim
     ->Util.splitToArray(' ', _)
-    ->keepMap(kv => {
-      switch kv->Util.splitToArray(':', _) {
-      | [k, v] => Some((k, v))
-      | _ => None
-      }
-    })
+    ->map(Util.bissect(':', _))
 }
 
 let normalizeRows = (rows: array<string>) => {
