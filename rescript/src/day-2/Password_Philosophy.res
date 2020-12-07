@@ -26,7 +26,7 @@ module Pt1 = {
   let countOccurrences = (str, ch)=> {
     let count = ref(0)
 
-    str |> String.iter(x => if (x === ch) { count := count.contents + 1 })
+    str->String.iter(x => if (x === ch) { count := count.contents + 1 }, _)
 
     count.contents
   }
@@ -48,7 +48,7 @@ module Pt1 = {
     let validEntries = entries->keep(isValidEntry)
     let result = validEntries->length
 
-    result |> Js.log2("Valid passwords found:")
+    result->Js.log2("Valid passwords found:", _)
   }
 }
 
@@ -93,7 +93,7 @@ module Pt2 = {
     let validEntries = entries->keep(isValidEntry)
     let result = validEntries->length
 
-    result |> Js.log2("Valid passwords found:")
+    result->Js.log2("Valid passwords found:", _)
   }
 }
 

@@ -12,7 +12,7 @@ type position = {
 
 let parseEntry = (entry) => {
   let result = Belt.Array.make(entry->String.length, '-')
-  entry |> String.iteri((i, char) => { result[i] = char })
+  entry->String.iteri((i, char) => { result[i] = char }, _)
   
   result
 }
