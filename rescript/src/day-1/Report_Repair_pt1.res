@@ -1,10 +1,12 @@
 @bs.val external dirName: string = "__dirname"
 
 let findMatches = (entries: array<int>, target: int): option<array<int>> => {
+  open Belt.Array
+
   let result = ref(None)
 
-  entries->Belt.Array.forEach((a) => {
-    entries->Belt.Array.forEach((b) => {
+  entries->forEach((a) => {
+    entries->forEach((b) => {
       let sum = a + b
 
       result := switch result.contents {
