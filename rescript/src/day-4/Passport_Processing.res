@@ -13,18 +13,16 @@ type passport = {
   cid: string
 }
 
-
 let requiredKeys = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid"]
 
-let isValid = (fields: array<(string, string)>) => {
+let hasAllRequiredFields = (fields: array<(string, string)>) => {
   open Belt.Array
 
   let isMissing = (key: string) => !(fields->some(((k, _)) => (k === key)))
   let missingFields = requiredKeys->keep(isMissing)
 
   // sneaky backdoor
-  missingFields->joinWith("", x => x) === "cid" ||
-  (fields->length === requiredKeys->length && missingFields->length === 0)
+  missingFields == ["cid"] || fields->length === requiredKeys->length
 }
 
 let line_break = "#<br />"
@@ -60,7 +58,7 @@ module Pt1 = {
   let run = () => {
     let validPassports = rows
       ->normalizeRows
-      ->Belt.Array.keep(isValid)
+      ->Belt.Array.keep(hasAllRequiredFields)
       ->Belt.Array.length
 
     Js.log2(`Valid passports:`, validPassports)
@@ -71,7 +69,7 @@ module Pt2 = {
   let run = () => {
     let validPassports = rows
       ->normalizeRows
-      ->Belt.Array.keep(isValid)
+      ->Belt.Array.keep(hasAllRequiredFields)
       ->Belt.Array.length
 
     Js.log2(`Valid passports:`, validPassports)
