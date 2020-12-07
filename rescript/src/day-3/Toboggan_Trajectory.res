@@ -2,19 +2,19 @@
 
 type strategy = {
   right: int,
-  down: int
+  down: int,
 }
 
 type position = {
   row: int,
-  column: int
+  column: int,
 }
 
-let parseEntry = (entry) => {
+let parseEntry = entry => {
   let result = Belt.Array.make(entry->String.length, '-')
-  
-  entry->String.iteri((i, char) => { result[i] = char }, _)
-  
+
+  entry->String.iteri((i, char) => {result[i] = char}, _)
+
   result
 }
 
@@ -23,17 +23,17 @@ let entries = Util.parseRows(~path=inputPath)->Belt.Array.map(parseEntry)
 
 let countTreesWithStrategy = (rows, scheme) => {
   let count = ref(0)
-  let position = ref({ row: 0, column: 0 })
+  let position = ref({row: 0, column: 0})
   let break = ref(false)
 
   let rowsLength = rows->Belt.Array.length
 
   while !break.contents {
     // move
-    let { row, column } = position.contents
+    let {row, column} = position.contents
     let (row', column') = (row + scheme.down, column + scheme.right)
-    
-    position := { row: row', column: column' }
+
+    position := {row: row', column: column'}
 
     break := row' > rowsLength - 1
 
@@ -55,8 +55,8 @@ let countTreesWithStrategy = (rows, scheme) => {
 module Pt1 = {
   let main = () => {
     let strategy = {
-      right: 3, 
-      down: 1 
+      right: 3,
+      down: 1,
     }
 
     let trees = entries->countTreesWithStrategy(strategy)
@@ -67,26 +67,20 @@ module Pt1 = {
 
 module Pt2 = {
   let strategies = [
-    { right: 1, down: 1 },
-    { right: 3, down: 1 },
-    { right: 5, down: 1 },
-    { right: 7, down: 1 },
-    { right: 1, down: 2 }
+    {right: 1, down: 1},
+    {right: 3, down: 1},
+    {right: 5, down: 1},
+    {right: 7, down: 1},
+    {right: 1, down: 2},
   ]
 
   let main = () => {
     open Belt.Array
 
-    let trees = strategies
-      ->map(entries->countTreesWithStrategy)
-      ->map(float_of_int)
-      ->Util.product
+    let trees = strategies->map(entries->countTreesWithStrategy)->map(float_of_int)->Util.product
 
     Js.log2(`Trees encountered:`, trees)
   }
 }
 
-Util.Runner.run(~title="Toboggan Trajectory", ~cases=[
-  Pt1.main,
-  Pt2.main
-])
+Util.Runner.run(~title="Toboggan Trajectory", ~cases=[Pt1.main, Pt2.main])

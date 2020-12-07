@@ -9,14 +9,15 @@ module Pt1 = {
 
     let result = ref(None)
 
-    entries->forEach((a) => {
-      entries->forEach((b) => {
+    entries->forEach(a => {
+      entries->forEach(b => {
         let sum = a + b
 
-        result := switch result.contents {
-          | None when (sum === target) => Some([a, b])
+        result :=
+          switch result.contents {
+          | None when sum === target => Some([a, b])
           | _ => result.contents
-        }
+          }
       })
     })
 
@@ -25,8 +26,8 @@ module Pt1 = {
 
   let run = () => {
     switch entries->findMatches(2020) {
-      | Some([a, b]) => Js.log2("Result:", a * b)
-      | _ => Js.log("Result: not found")
+    | Some([a, b]) => Js.log2("Result:", a * b)
+    | _ => Js.log("Result: not found")
     }
   }
 }
@@ -34,18 +35,19 @@ module Pt1 = {
 module Pt2 = {
   let findMatches = (entries: array<int>, target: int): option<array<int>> => {
     open Belt.Array
-    
+
     let result = ref(None)
 
-    entries->forEach((a) => {
-      entries->forEach((b) => {
-        entries->forEach((c) => {
+    entries->forEach(a => {
+      entries->forEach(b => {
+        entries->forEach(c => {
           let sum = a + b + c
 
-          result := switch result.contents {
-            | None when (sum === target) => Some([a, b, c])
+          result :=
+            switch result.contents {
+            | None when sum === target => Some([a, b, c])
             | _ => result.contents
-          }
+            }
         })
       })
     })
@@ -53,16 +55,12 @@ module Pt2 = {
     result.contents
   }
 
-
   let run = () => {
     switch entries->findMatches(2020) {
-      | Some([a, b, c]) => Js.log2("Result:", a * b * c)
-      | _ => Js.log("Result: not found")
+    | Some([a, b, c]) => Js.log2("Result:", a * b * c)
+    | _ => Js.log("Result: not found")
     }
   }
 }
 
-Util.Runner.run(~title="Report Repair", ~cases=[
-  Pt1.run,
-  Pt2.run
-])
+Util.Runner.run(~title="Report Repair", ~cases=[Pt1.run, Pt2.run])

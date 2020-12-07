@@ -7,7 +7,7 @@ module Pt1 = {
     min: int,
     max: int,
     character: char,
-    pwd: string
+    pwd: string,
   }
 
   let parseEntry = (s: string) => {
@@ -16,29 +16,29 @@ module Pt1 = {
     let (min, max) = Util.bissectMap('-', rule, int_of_string)
 
     {
-      min,
-      max,
+      min: min,
+      max: max,
       character: character->String.get(0),
-      pwd: right->String.trim
+      pwd: right->String.trim,
     }
   }
 
-  let countOccurrences = (str, ch)=> {
+  let countOccurrences = (str, ch) => {
     let count = ref(0)
 
-    str->String.iter(x => if (x === ch) { count := count.contents + 1 }, _)
+    str->String.iter(x =>
+      if x === ch {
+        count := count.contents + 1
+      }
+    , _)
 
     count.contents
   }
 
-  let isValidEntry = (entry) => {
-    let { min, max, character, pwd } = entry
-    
-    Util.isBetween(
-      ~value=pwd->countOccurrences(character), 
-      ~min, 
-      ~max
-    )
+  let isValidEntry = entry => {
+    let {min, max, character, pwd} = entry
+
+    Util.isBetween(~value=pwd->countOccurrences(character), ~min, ~max)
   }
 
   let main = () => {
@@ -57,7 +57,7 @@ module Pt2 = {
     pos1: int,
     pos2: int,
     character: char,
-    pwd: string
+    pwd: string,
   }
 
   let parseEntry = (s: string) => {
@@ -66,22 +66,20 @@ module Pt2 = {
     let (pos1, pos2) = Util.bissectMap('-', rule, int_of_string)
 
     {
-      pos1,
-      pos2,
+      pos1: pos1,
+      pos2: pos2,
       character: character->String.get(0),
-      pwd: right->String.trim
+      pwd: right->String.trim,
     }
   }
 
-  let isValidEntry = (entry) => {
+  let isValidEntry = entry => {
     open Belt.Array
 
-    let { pos1, pos2, character, pwd } = entry
+    let {pos1, pos2, character, pwd} = entry
     let isExpectedCharacter = x => pwd->String.get(x - 1) === character
-    
-    [pos1, pos2]
-      ->keep(isExpectedCharacter)
-      ->length === 1
+
+    [pos1, pos2]->keep(isExpectedCharacter)->length === 1
   }
 
   let main = () => {
@@ -89,7 +87,7 @@ module Pt2 = {
 
     let inputPath = Node.Path.resolve(dirName, "input.txt")
     let entries = Util.parseRows(~path=inputPath)->map(parseEntry)
-    
+
     let validEntries = entries->keep(isValidEntry)
     let result = validEntries->length
 
@@ -97,7 +95,4 @@ module Pt2 = {
   }
 }
 
-Util.Runner.run(~title="Password Philosophy", ~cases=[
-  Pt1.main,
-  Pt2.main
-])
+Util.Runner.run(~title="Password Philosophy", ~cases=[Pt1.main, Pt2.main])

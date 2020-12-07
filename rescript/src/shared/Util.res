@@ -1,7 +1,6 @@
 // plumbing
 
-let splitToArray = (c, s) =>
-  String.split_on_char(c, s)->Belt.List.toArray
+let splitToArray = (c, s) => String.split_on_char(c, s)->Belt.List.toArray
 
 let parseRows = (~path) => {
   let file = Node.Fs.readFileAsUtf8Sync(path)
@@ -29,8 +28,7 @@ let bissectMap = (c, s, fn) => {
   }
 }
 
-let isBetween = (~value: int, ~min, ~max) => 
-  value >= min && value <= max
+let isBetween = (~value: int, ~min, ~max) => value >= min && value <= max
 
 module Runner = {
   let run = (~title, ~cases) => {
