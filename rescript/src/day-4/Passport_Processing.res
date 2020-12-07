@@ -34,8 +34,8 @@ let normalizeRows = (rows: array<string>) => {
 
 let rows = Util.parseRows(~path=inputPath)
 
-module Pt1 = {
-  let run = () => {
+module Part1 = {
+  let main = () => {
     let validPassports =
       rows->normalizeRows->Belt.Array.keep(hasAllRequiredFields)->Belt.Array.length
 
@@ -43,8 +43,8 @@ module Pt1 = {
   }
 }
 
-module Pt2 = {
-  let run = () => {
+module Part2 = {
+  let main = () => {
     let validPassports =
       rows->normalizeRows->Belt.Array.keep(hasAllRequiredFields)->Belt.Array.length
 
@@ -52,4 +52,4 @@ module Pt2 = {
   }
 }
 
-Util.Runner.run(~title="Passport Processing", ~cases=[Pt1.run, Pt2.run])
+Util.Runner.run(~title="Passport Processing", ~cases=[Part1.main, Part2.main])

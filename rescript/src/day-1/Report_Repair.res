@@ -3,7 +3,7 @@
 let inputPath = Node.Path.resolve(dirName, "input.txt")
 let entries = Util.parseRows(~path=inputPath)->Belt.Array.map(int_of_string)
 
-module Pt1 = {
+module Part1 = {
   let findMatches = (entries: array<int>, target: int): option<array<int>> => {
     open Belt.Array
 
@@ -24,7 +24,7 @@ module Pt1 = {
     result.contents
   }
 
-  let run = () => {
+  let main = () => {
     switch entries->findMatches(2020) {
     | Some([a, b]) => Js.log2("Result:", a * b)
     | _ => Js.log("Result: not found")
@@ -32,7 +32,7 @@ module Pt1 = {
   }
 }
 
-module Pt2 = {
+module Part2 = {
   let findMatches = (entries: array<int>, target: int): option<array<int>> => {
     open Belt.Array
 
@@ -55,7 +55,7 @@ module Pt2 = {
     result.contents
   }
 
-  let run = () => {
+  let main = () => {
     switch entries->findMatches(2020) {
     | Some([a, b, c]) => Js.log2("Result:", a * b * c)
     | _ => Js.log("Result: not found")
@@ -63,4 +63,4 @@ module Pt2 = {
   }
 }
 
-Util.Runner.run(~title="Report Repair", ~cases=[Pt1.run, Pt2.run])
+Util.Runner.run(~title="Report Repair", ~cases=[Part1.main, Part2.main])

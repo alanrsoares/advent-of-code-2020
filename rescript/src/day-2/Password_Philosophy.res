@@ -2,7 +2,7 @@
 
 let inputPath = Node.Path.resolve(dirName, "input.txt")
 
-module Pt1 = {
+module Part1 = {
   type entry = {
     min: int,
     max: int,
@@ -52,7 +52,7 @@ module Pt1 = {
   }
 }
 
-module Pt2 = {
+module Part2 = {
   type entry = {
     pos1: int,
     pos2: int,
@@ -95,4 +95,4 @@ module Pt2 = {
   }
 }
 
-Util.Runner.run(~title="Password Philosophy", ~cases=[Pt1.main, Pt2.main])
+Util.Runner.run(~title="Password Philosophy", ~cases=[Part1.main, Part2.main])

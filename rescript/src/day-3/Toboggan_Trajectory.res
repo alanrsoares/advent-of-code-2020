@@ -52,7 +52,7 @@ let countTreesWithStrategy = (rows, scheme) => {
   count.contents
 }
 
-module Pt1 = {
+module Part1 = {
   let main = () => {
     let strategy = {
       right: 3,
@@ -65,7 +65,7 @@ module Pt1 = {
   }
 }
 
-module Pt2 = {
+module Part2 = {
   let strategies = [
     {right: 1, down: 1},
     {right: 3, down: 1},
@@ -83,4 +83,4 @@ module Pt2 = {
   }
 }
 
-Util.Runner.run(~title="Toboggan Trajectory", ~cases=[Pt1.main, Pt2.main])
+Util.Runner.run(~title="Toboggan Trajectory", ~cases=[Part1.main, Part2.main])
