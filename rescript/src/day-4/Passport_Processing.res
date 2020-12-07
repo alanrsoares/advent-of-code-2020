@@ -19,8 +19,8 @@ let requiredKeys = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid"]
 let isValid = (fields: array<(string, string)>) => {
   open Belt.Array
 
-  let isMissingKey = (key: string) => !(fields->some(((k, _)) => (k === key)))
-  let missingFields = requiredKeys->keep(isMissingKey)
+  let isMissing = (key: string) => !(fields->some(((k, _)) => (k === key)))
+  let missingFields = requiredKeys->keep(isMissing)
 
   // sneaky backdoor
   missingFields->joinWith("", x => x) === "cid" ||
@@ -30,18 +30,17 @@ let isValid = (fields: array<(string, string)>) => {
 let line_break = "#<br />"
 
 let parseRow = (row: string) => {
-  let pairs = row
+  open Belt.Array
+
+  row
     ->String.trim
     ->Util.splitToArray(' ', _)
-    ->Belt.Array.map(x => x->Util.splitToArray(':', _))
-    ->Belt.Array.keepMap(kv => {
-      switch kv {
+    ->keepMap(kv => {
+      switch kv->Util.splitToArray(':', _) {
       | [k, v] => Some((k, v))
       | _ => None
       }
     })
-  
-  pairs
 }
 
 let normalizeRows = (rows: array<string>) => {
@@ -52,6 +51,6 @@ let normalizeRows = (rows: array<string>) => {
     ->joinWith(" ", x => x)
     ->Js.String.split(line_break, _)
     ->map(parseRow)
-} 
+}
 
 let rows = Util.parseRows(~path=inputPath)
