@@ -48,7 +48,7 @@ let isValidEntry = (entry) => {
 
 let main = () => {
   let inputPath = Node.Path.resolve(dirName, "input.txt")
-  let entries = Util.parseRows(inputPath)->Belt.Array.map(parseEntry)
+  let entries = Util.parseRows(~path=inputPath)->Belt.Array.map(parseEntry)
   
   let validEntries = entries->Belt.Array.keep(isValidEntry)
   let result = validEntries->Belt.Array.length

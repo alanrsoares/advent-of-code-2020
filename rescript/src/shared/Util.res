@@ -1,9 +1,9 @@
 // plumbing
 
-let splitToArray = (c, s) => 
+let splitToArray = (c, s) =>
   String.split_on_char(c, s)->Belt.List.toArray
 
-let parseRows = (path) => {
+let parseRows = (~path) => {
   let file = Node.Fs.readFileAsUtf8Sync(path)
 
   splitToArray('\n', file)
