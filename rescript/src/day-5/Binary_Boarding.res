@@ -8,72 +8,72 @@ let maxRowIndex = 127
 let maxColumnIndex = 7
 
 module Part1 = {
+  open Belt.Array
+
   type seat = {
     row: int,
     col: int,
     id: int,
   }
 
-  type range = (int, int)
-
-  type result = {rowRange: range, colRange: range, row: int, col: int}
-
   let delta = (a, b) => a - (a - b) / 2
 
-  let main = () => {
-    open Belt.Array
+  let isOneOf = (xs, x) => Js.Array.includes(x, xs)
 
-    let seats = rows->map(boardingPass => {
-      let initial = {
-        rowRange: (0, maxRowIndex),
-        colRange: (0, maxColumnIndex),
-        row: 0,
-        col: 0,
+  type direction = Lower | Upper
+
+  let toDirection = x => {
+    switch x {
+    | "L" | "F" => Lower
+    | "R" | "B" => Upper
+    | _ => Upper
+    }
+  }
+
+  let bissectWithBounds = (steps: array<direction>, treeBounds) => {
+    let last = steps->getUnsafe(steps->length - 1)
+
+    let (left, right) = steps->reduce(treeBounds, ((l, r), step) => {
+      let delta' = delta(r, l)
+
+      switch step {
+      // lower bound
+      | Lower => (l, delta')
+      // upper bound
+      | Upper => (delta', r)
       }
+    })
 
-      let result = Util.explode(boardingPass)->reduceWithIndex(initial, (acc, x, i) => {
-        let (leftRow, rightRow) = acc.rowRange
-        let (leftCol, rightCol) = acc.colRange
+    let settle = switch last {
+    | Lower => min
+    | Upper => max
+    }
 
-        let rowDelta = delta(rightRow, leftRow)
-        let colDelta = delta(rightCol, leftCol)
+    settle(left, right)
+  }
 
-        switch (x, i) {
-        // lower half (row)
-        | ("F", 6) => {
-            ...acc,
-            row: min(leftRow, rightRow),
-            rowRange: (leftRow, rowDelta),
-          }
-        | ("F", _) => {...acc, rowRange: (leftRow, rowDelta)}
+  let main = () => {
+    let seats = rows->map(boardingPass => {
+      let steps = Util.explode(boardingPass)
 
-        // upper half (row)
-        | ("B", 6) => {
-            ...acc,
-            rowRange: (rowDelta, rightRow),
-            row: max(leftRow, rightRow),
-          }
-        | ("B", _) => {...acc, rowRange: (rowDelta, rightRow)}
+      let (rowSteps, colSteps) = (
+        steps->keep(isOneOf(["F", "B"]))->map(toDirection),
+        steps->keep(isOneOf(["L", "R"]))->map(toDirection),
+      )
 
-        // lower half (col)
-        | ("L", 9) => {...acc, col: min(leftCol, rightCol)}
-        | ("L", _) => {...acc, colRange: (leftCol, colDelta)}
+      let (row, col) = (
+        rowSteps->bissectWithBounds((0, maxRowIndex)),
+        colSteps->bissectWithBounds((0, maxColumnIndex)),
+      )
 
-        // upper half (col)
-        | ("R", 9) => {...acc, col: max(leftCol, rightCol)}
-        | ("R", _) => {...acc, colRange: (colDelta, rightCol)}
-
-        // should never get here
-        | _ => acc
-        }
-      })
-
-      {row: result.row, col: result.col, id: result.row * 8 + result.col}
+      {
+        row: row,
+        col: col,
+        id: row * 8 + col,
+      }
     })
 
     let maxId = seats->map(x => x.id)->reduce(0, max)
-
-    Js.log(seats->keep(x => x.col <= 0 || x.row <= 0))
 
     Js.log2("Highest seat id:", maxId)
   }
