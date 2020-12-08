@@ -23,7 +23,7 @@ module Part1 = {
   let main = () => {
     open Belt.Array
 
-    let seats = rows->map(row => {
+    let seats = rows->map(boardingPass => {
       let initial = {
         rowRange: (0, maxRowIndex),
         colRange: (0, maxColumnIndex),
@@ -31,7 +31,7 @@ module Part1 = {
         col: 0,
       }
 
-      let result = Util.explode(row)->reduceWithIndex(initial, (acc, x, i) => {
+      let result = Util.explode(boardingPass)->reduceWithIndex(initial, (acc, x, i) => {
         let (leftRow, rightRow) = acc.rowRange
         let (leftCol, rightCol) = acc.colRange
 
@@ -72,6 +72,8 @@ module Part1 = {
     })
 
     let maxId = seats->map(x => x.id)->reduce(0, max)
+
+    Js.log(seats->keep(x => x.col <= 0 || x.row <= 0))
 
     Js.log2("Highest seat id:", maxId)
   }
