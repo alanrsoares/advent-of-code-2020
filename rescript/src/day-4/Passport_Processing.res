@@ -19,7 +19,7 @@ let line_break = "#<br />"
 let parseRow = (row: string) => {
   open Belt.Array
 
-  row->String.trim->Util.splitToArray(' ', _)->map(Util.bissect(':', _))
+  row->String.trim->Util.splitToArray(' ', _)->map(Util.bisect(':', _))
 }
 
 let normalizeRows = (rows: array<string>) => {

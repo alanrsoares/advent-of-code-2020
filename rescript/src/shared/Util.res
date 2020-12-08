@@ -14,14 +14,14 @@ let product = Belt.Array.reduce(_, 1.0, (a, b) => a *. b)
 
 exception String_cannot_be_split
 
-let bissect = (c, s) => {
+let bisect = (c, s) => {
   switch splitToArray(c, s) {
   | [l, r] => (l, r)
   | _ => raise(String_cannot_be_split)
   }
 }
 
-let bissectMap = (c, s, fn) => {
+let bisectMap = (c, s, fn) => {
   switch splitToArray(c, s)->Belt.Array.map(fn) {
   | [l, r] => (l, r)
   | _ => raise(String_cannot_be_split)

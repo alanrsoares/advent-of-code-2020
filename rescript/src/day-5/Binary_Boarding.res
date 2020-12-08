@@ -27,7 +27,7 @@ let toDirection = x => {
   }
 }
 
-let bissectWithBounds = (steps: array<direction>, treeBounds) => {
+let bisectWithBounds = (steps: array<direction>, treeBounds) => {
   open Belt.Array
 
   let last = steps->getUnsafe(steps->length - 1)
@@ -62,8 +62,8 @@ module Part1 = {
       )
 
       let (row, col) = (
-        rowSteps->bissectWithBounds((0, maxRowIndex)),
-        colSteps->bissectWithBounds((0, maxColumnIndex)),
+        rowSteps->bisectWithBounds((0, maxRowIndex)),
+        colSteps->bisectWithBounds((0, maxColumnIndex)),
       )
 
       {

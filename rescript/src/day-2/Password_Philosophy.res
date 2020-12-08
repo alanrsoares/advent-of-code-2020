@@ -11,9 +11,9 @@ module Part1 = {
   }
 
   let parseEntry = (s: string) => {
-    let (left, right) = Util.bissect(':', s)
-    let (rule, character) = Util.bissect(' ', left)
-    let (min, max) = Util.bissectMap('-', rule, int_of_string)
+    let (left, right) = Util.bisect(':', s)
+    let (rule, character) = Util.bisect(' ', left)
+    let (min, max) = Util.bisectMap('-', rule, int_of_string)
 
     {
       min: min,
@@ -61,9 +61,9 @@ module Part2 = {
   }
 
   let parseEntry = (s: string) => {
-    let (left, right) = Util.bissect(':', s)
-    let (rule, character) = Util.bissect(' ', left)
-    let (pos1, pos2) = Util.bissectMap('-', rule, int_of_string)
+    let (left, right) = Util.bisect(':', s)
+    let (rule, character) = Util.bisect(' ', left)
+    let (pos1, pos2) = Util.bisectMap('-', rule, int_of_string)
 
     {
       pos1: pos1,
