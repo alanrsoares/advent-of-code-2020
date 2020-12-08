@@ -10,16 +10,8 @@ type position = {
   column: int,
 }
 
-let parseEntry = entry => {
-  let result = Belt.Array.make(entry->String.length, '-')
-
-  entry->String.iteri((i, char) => {result[i] = char}, _)
-
-  result
-}
-
 let inputPath = Node.Path.resolve(dirName, "input.txt")
-let entries = Util.parseRows(~path=inputPath)->Belt.Array.map(parseEntry)
+let entries = Util.parseRows(~path=inputPath)->Belt.Array.map(Util.explode)
 
 let countTreesWithStrategy = (rows, scheme) => {
   let count = ref(0)
@@ -43,7 +35,7 @@ let countTreesWithStrategy = (rows, scheme) => {
       let safeX = mod(column', rowLength)
       let tile = row[safeX]
 
-      if tile === '#' {
+      if tile === "#" {
         count := count.contents + 1
       }
     }

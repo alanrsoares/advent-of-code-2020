@@ -28,6 +28,8 @@ let bissectMap = (c, s, fn) => {
   }
 }
 
+let explode = Js.String.split("", _)
+
 let isBetween = (~value: int, ~min, ~max) => value >= min && value <= max
 
 module Runner = {
