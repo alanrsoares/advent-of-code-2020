@@ -45,30 +45,29 @@ module Part1 = {
 }
 
 module Validation = {
+  open Belt.Array
+
+  let applyRules = (rules, s) => rules->every(r => r(s))
+
   let hasLength = (s, n) => s->String.length === n
   let isBetween = (s, min, max) => Util.isBetween(~value=s->int_of_string, ~min, ~max)
   let isDigit = s => s->Js.Re.test_(%re("/^\d+$/g"), _)
   let isDigitWithLength = (s, n) => s->isDigit && s->hasLength(n)
   let isValidHeight = s => {
-    switch s->Js.Re.exec_(%re("/^(\d+)(cm|in)$/g"), _) {
-    | Some(result) =>
-      switch result->Js.Re.captures {
-      | [_, value, measure] =>
-        switch (Js.Nullable.toOption(value), Js.Nullable.toOption(measure)) {
-        | (Some(v), Some("cm")) => v->isDigit && v->isBetween(150, 193)
-        | (Some(v), Some("in")) => v->isDigit && v->isBetween(59, 76)
-        | _ => false
-        }
+    let maybeResult = s->Js.Re.exec_(%re("/^(\d+)(cm|in)$/g"), _)
+    maybeResult->Belt.Option.mapWithDefault(false, result => {
+      let captured = result->Js.Re.captures->map(Js.Nullable.toOption)->sliceToEnd(1)
+
+      switch captured {
+      | [Some(v), Some("cm")] => v->isDigit && v->isBetween(150, 193)
+      | [Some(v), Some("in")] => v->isDigit && v->isBetween(59, 76)
       | _ => false
       }
-    | _ => false
-    }
+    })
   }
   let isHexColor = s => s->Js.Re.test_(%re("/^#(([a-f0-9]){3}|([a-f0-9]{6}))$/ig"), _)
   let isEyeColor = s =>
-    ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]->Belt.Array.some(color => color === s)
-
-  let apply = (rules, s) => rules->Belt.Array.every(r => r(s))
+    ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]->some(color => color === s)
 }
 
 module Part2 = {
@@ -77,14 +76,14 @@ module Part2 = {
 
   let rulesMap =
     [
-      ("byr", apply([isDigitWithLength(_, 4), isBetween(_, 1920, 2002)])),
-      ("iyr", apply([isDigitWithLength(_, 4), isBetween(_, 2010, 2020)])),
-      ("eyr", apply([isDigitWithLength(_, 4), isBetween(_, 2020, 2030)])),
+      ("byr", [isDigitWithLength(_, 4), isBetween(_, 1920, 2002)]->applyRules),
+      ("iyr", [isDigitWithLength(_, 4), isBetween(_, 2010, 2020)]->applyRules),
+      ("eyr", [isDigitWithLength(_, 4), isBetween(_, 2020, 2030)]->applyRules),
       ("hgt", isValidHeight),
       ("hcl", isHexColor),
       ("ecl", isEyeColor),
       ("pid", isDigitWithLength(_, 9)),
-      ("cid", _x => true),
+      ("cid", _ => true),
     ]->Belt.Map.String.fromArray
 
   let main = () => {
