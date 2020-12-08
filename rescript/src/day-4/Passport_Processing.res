@@ -47,7 +47,7 @@ module Part1 = {
 module Validation = {
   open Belt.Array
 
-  let applyRules = (rules, s) => rules->every(r => r(s))
+  let applyRules = (rules, s: string) => rules->every(r => r(s))
 
   let hasLength = (s, n) => s->String.length === n
   let isBetween = (s, min, max) => Util.isBetween(~value=s->int_of_string, ~min, ~max)
