@@ -37,9 +37,7 @@ module Part1 = {
       let delta' = delta(r, l)
 
       switch step {
-      // lower bound
       | Lower => (l, delta')
-      // upper bound
       | Upper => (delta', r)
       }
     })
