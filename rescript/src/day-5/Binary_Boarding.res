@@ -7,50 +7,52 @@ let rows = Util.parseRows(~path=inputPath)
 let maxRowIndex = 127
 let maxColumnIndex = 7
 
-module Part1 = {
+type seat = {
+  row: int,
+  col: int,
+  id: int,
+}
+
+let delta = (a, b) => a - (a - b) / 2
+
+let isOneOf = (xs, x) => Js.Array.includes(x, xs)
+
+type direction = Lower | Upper
+
+let toDirection = x => {
+  switch x {
+  | "L" | "F" => Lower
+  | "R" | "B" => Upper
+  | _ => Upper
+  }
+}
+
+let bissectWithBounds = (steps: array<direction>, treeBounds) => {
   open Belt.Array
 
-  type seat = {
-    row: int,
-    col: int,
-    id: int,
-  }
+  let last = steps->getUnsafe(steps->length - 1)
 
-  let delta = (a, b) => a - (a - b) / 2
+  let (left, right) = steps->reduce(treeBounds, ((l, r), step) => {
+    let delta' = delta(r, l)
 
-  let isOneOf = (xs, x) => Js.Array.includes(x, xs)
-
-  type direction = Lower | Upper
-
-  let toDirection = x => {
-    switch x {
-    | "L" | "F" => Lower
-    | "R" | "B" => Upper
-    | _ => Upper
+    switch step {
+    | Lower => (l, delta')
+    | Upper => (delta', r)
     }
+  })
+
+  let settle = switch last {
+  | Lower => min
+  | Upper => max
   }
 
-  let bissectWithBounds = (steps: array<direction>, treeBounds) => {
-    let last = steps->getUnsafe(steps->length - 1)
+  settle(left, right)
+}
 
-    let (left, right) = steps->reduce(treeBounds, ((l, r), step) => {
-      let delta' = delta(r, l)
-
-      switch step {
-      | Lower => (l, delta')
-      | Upper => (delta', r)
-      }
-    })
-
-    let settle = switch last {
-    | Lower => min
-    | Upper => max
-    }
-
-    settle(left, right)
-  }
-
+module Part1 = {
   let main = () => {
+    open Belt.Array
+
     let seats = rows->map(boardingPass => {
       let steps = Util.explode(boardingPass)
 
